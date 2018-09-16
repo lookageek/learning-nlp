@@ -3,7 +3,6 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.ensemble import RandomForestClassifier
 from KaggleWord2VecUtility import KaggleWord2VecUtility
 import pandas as pd
-import nltk
 
 if __name__ == '__main__':
     print("Read the data onto pandas dataframes")
@@ -14,7 +13,7 @@ if __name__ == '__main__':
   
     print(f"The first review is {train_data['review'][0]}")
 
-    print("Cleaning and parsing the training set movie reviews\n")
+    print("Cleaning and parsing the training set movie reviews...")
     clean_train_reviews = []
 
     for review in train_data['review']:
@@ -32,10 +31,10 @@ if __name__ == '__main__':
 
     train_data_features = vectorizer.fit_transform(clean_train_reviews).toarray()
 
-    print("Creating Random Forest Classifier and Training it: \n")
-    random_forest = RandomForestClassifier(n_estimators=200).fit(train_data_features, train_data['sentiment'])
+    print("Creating Random Forest Classifier and Training it...")
+    random_forest = RandomForestClassifier(n_estimators=100).fit(train_data_features, train_data['sentiment'])
 
-    print("Cleaning and parsing the test set movie reviews: \n")
+    print("Cleaning and parsing the test set movie reviews...")
     clean_test_reviews = []
 
     for review in test_data['review']:
@@ -46,10 +45,10 @@ if __name__ == '__main__':
 
     test_data_features = vectorizer.transform(clean_test_reviews).toarray()
 
-    print("Predicting test data labels:\n")
+    print("Predicting test data labels...")
     result = random_forest.predict(test_data_features)
     output = pd.DataFrame( data={"id": test_data['id'], "sentiment": result} )
     output.to_csv(os.path.join(os.path.dirname(__file__), 'data', 'bag_of_words_inference.csv'),
                   index=False, quoting=3)
 
-    print("Wrote Inference Data")    
+    print("Wrote Inference Data!")
